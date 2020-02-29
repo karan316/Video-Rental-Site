@@ -13,7 +13,14 @@ const Pagination = props => {
         <nav>
             <ul className='pagination justify-content-center'>
                 {pages.map(page => (
-                    <li key={page} className={page === currentPage ? 'page-item active' : 'page-item'}>
+                    <li
+                        key={page}
+                        className={
+                            page === currentPage
+                                ? 'page-item active'
+                                : 'page-item'
+                        }
+                    >
                         <span
                             onClick={() => onPageChange(page)}
                             className='page-link'
@@ -28,10 +35,10 @@ const Pagination = props => {
 };
 
 Pagination.propTypes = {
-    itemsCount: PropTypes.number.isRequired, 
-    pageSize: PropTypes.number.isRequired, 
-    currentPage: PropTypes.number.isRequired , 
+    itemsCount: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired
-}
+};
 
 export default Pagination;
