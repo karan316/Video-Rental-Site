@@ -56,6 +56,7 @@ class Movies extends Component {
             movies: allMovies,
             sortColumn
         } = this.state;
+
         const filtered =
             selectedGenre && selectedGenre._id // need to include selectedGenre._id for all genre movies
                 ? allMovies.filter(m => m.genre._id === selectedGenre._id)
@@ -83,15 +84,15 @@ class Movies extends Component {
 
         const { totalCount, data: movies } = this.getPagedData();
         return (
-            <div className='row'>
-                <div className='col-3'>
+            <div className="row">
+                <div className="col-3">
                     <ListGroup
                         items={this.state.genres}
                         onItemSelect={this.handleGenreSelect}
                         selectedItem={this.state.selectedGenre}
                     />
                 </div>
-                <div className='col'>
+                <div className="col">
                     <p>Showing {totalCount} movies in the database </p>
                     {/* <span>{this.state.movies.map(movie => <li key={movie}>{movie}</li>)}</span> */}
                     <MoviesTable

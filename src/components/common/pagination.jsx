@@ -11,7 +11,7 @@ const Pagination = props => {
     const pages = _.range(1, pagesCount + 1);
     return (
         <nav>
-            <ul className='pagination justify-content-center'>
+            <ul className="pagination justify-content-center">
                 {pages.map(page => (
                     <li
                         key={page}
@@ -23,7 +23,7 @@ const Pagination = props => {
                     >
                         <span
                             onClick={() => onPageChange(page)}
-                            className='page-link'
+                            className="page-link"
                         >
                             {page}
                         </span>
