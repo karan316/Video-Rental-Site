@@ -1,35 +1,49 @@
-import React, { Component } from 'react';
-import { getMovies } from '../services/fakeMovieService';
-import Pagination from './common/pagination';
-import { paginate } from '../utils/paginate';
-import ListGroup from './common/listGroup';
-import { getGenres } from '../services/fakeGenreService';
-import MoviesTable from './moviesTable';
-import { Link } from 'react-router-dom';
-import _ from 'lodash';
-import SearchBox from './common/searchBox';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
+import { paginate } from "../utils/paginate";
+import MoviesTable from "./moviesTable";
+import SearchBox from "./common/searchBox";
+import Pagination from "./common/pagination";
+import ListGroup from "./common/listGroup";
+import _ from "lodash";
+import { toast } from "react-toastify";
 
 class Movies extends Component {
     state = {
         // movies: getMovies(),
+
         movies: [],
         genres: [],
         currentPage: 1,
         pageSize: 4,
-        searchQuery: '',
+        searchQuery: "",
         selectedGenre: null,
-        sortColumn: { path: 'title', order: 'asc' } //path and order initializations are used in lodash
+        sortColumn: { path: "title", order: "asc" } //path and order initializations are used in lodash
     };
 
-    componentDidMount() {
+    async componentDidMount() {
+        const { data } = await getGenres();
         //normally movies and genres would be added via backend so we use componentDidMount life cycle hook to initialize them
-        const genres = [{ _id: '', name: 'All Genres' }, ...getGenres()];
-        this.setState({ movies: getMovies(), genres: genres });
+        const genres = [{ _id: "", name: "All Genres" }, ...data];
+
+        const { data: movies } = await getMovies();
+        this.setState({ movies, genres });
     }
 
-    handleDelete = movie => {
-        const movies = this.state.movies.filter(m => m._id !== movie._id);
-        this.setState({ movies: movies }); //set movies property to newly created movie object
+    handleDelete = async movie => {
+        const originalMovies = this.state.movies;
+        const movies = originalMovies.filter(m => m._id !== movie._id);
+        this.setState({ movies }); //set movies property to newly created movie object
+
+        try {
+            await deleteMovie(movie._id);
+        } catch (ex) {
+            if (ex.response && ex.response.status === 404)
+                toast.error("Movie has been already deleted");
+            this.setState({ posts: originalMovies });
+        }
     };
 
     handleLike = movie => {
@@ -47,7 +61,7 @@ class Movies extends Component {
     handleGenreSelect = genre => {
         this.setState({
             selectedGenre: genre,
-            searchQuery: '',
+            searchQuery: "",
             currentPage: 1
         });
     };
