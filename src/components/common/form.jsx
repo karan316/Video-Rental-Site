@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import Joi from 'joi-browser';
-import Input from './input';
-import Select from './select';
+import React, { Component } from "react";
+import Joi from "joi-browser";
+import Input from "./input";
+import Select from "./select";
 class Form extends Component {
     state = {
         data: {},
@@ -59,7 +59,7 @@ class Form extends Component {
         );
     }
 
-    renderInput(name, label, type = 'text') {
+    renderInput(name, label, type = "text") {
         /* created Input component because we had repeating codes for username field and password field with minor change */
 
         const { data, errors } = this.state;
