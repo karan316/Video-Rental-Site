@@ -1,8 +1,9 @@
 import http from "./httpService";
-import { apiUrl } from "../config.json";
+// import { apiUrl } from "../config.json";
 import jwtDecode from "jwt-decode";
 
-const apiEndPoint = apiUrl + "/auth";
+// const apiEndPoint = apiUrl + "/auth";
+const apiEndPoint = "/auth";
 const tokenKey = "token";
 
 http.setJwt(getJwt());
@@ -38,5 +39,5 @@ export default {
     loginWithJwt,
     logout,
     getCurrentUser,
-    getJwt
+    getJwt,
 };

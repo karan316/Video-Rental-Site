@@ -20,7 +20,7 @@ class Movies extends Component {
         pageSize: 4,
         searchQuery: "",
         selectedGenre: null,
-        sortColumn: { path: "title", order: "asc" } //path and order initializations are used in lodash
+        sortColumn: { path: "title", order: "asc" }, //path and order initializations are used in lodash
     };
 
     async componentDidMount() {
@@ -32,9 +32,9 @@ class Movies extends Component {
         this.setState({ movies, genres });
     }
 
-    handleDelete = async movie => {
+    handleDelete = async (movie) => {
         const originalMovies = this.state.movies;
-        const movies = originalMovies.filter(m => m._id !== movie._id);
+        const movies = originalMovies.filter((m) => m._id !== movie._id);
         this.setState({ movies }); //set movies property to newly created movie object
 
         try {
@@ -46,7 +46,7 @@ class Movies extends Component {
         }
     };
 
-    handleLike = movie => {
+    handleLike = (movie) => {
         const movies = [...this.state.movies];
         const index = movies.indexOf(movie);
         movie[index] = { ...movies[index] }; //copying properties
@@ -54,27 +54,27 @@ class Movies extends Component {
         this.setState({ movies });
     };
 
-    handlePageChange = page => {
+    handlePageChange = (page) => {
         this.setState({ currentPage: page });
     };
 
-    handleGenreSelect = genre => {
+    handleGenreSelect = (genre) => {
         this.setState({
             selectedGenre: genre,
             searchQuery: "",
-            currentPage: 1
+            currentPage: 1,
         });
     };
 
-    handleOnSort = sortColumn => {
+    handleOnSort = (sortColumn) => {
         this.setState({ sortColumn });
     };
 
-    handleSearch = query => {
+    handleSearch = (query) => {
         this.setState({
             searchQuery: query,
             selectedGenre: null,
-            currentPage: 1
+            currentPage: 1,
         });
     };
 
@@ -85,7 +85,7 @@ class Movies extends Component {
             selectedGenre,
             searchQuery,
             movies: allMovies,
-            sortColumn
+            sortColumn,
         } = this.state;
 
         // const filtered =
@@ -95,12 +95,14 @@ class Movies extends Component {
 
         let filtered = allMovies;
         if (searchQuery)
-            filtered = allMovies.filter(m =>
+            filtered = allMovies.filter((m) =>
                 m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
             );
         //if there is a search query search using the search query else use the genre filter
         else if (selectedGenre && selectedGenre._id)
-            filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
+            filtered = allMovies.filter(
+                (m) => m.genre._id === selectedGenre._id
+            );
 
         const sorted = _.orderBy(
             filtered,
@@ -112,20 +114,19 @@ class Movies extends Component {
 
         return {
             totalCount: filtered.length,
-            data: movies
+            data: movies,
         };
     };
 
     render() {
         const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
-        const { length: movie_count } = this.state.movies;
+        // const { length: movie_count } = this.state.movies;
         const { user } = this.props;
-        if (movie_count === 0) return <p>No movies available</p>;
 
         const { totalCount, data: movies } = this.getPagedData();
         return (
-            <div className="row">
-                <div className="col-3">
+            <div className='row'>
+                <div className='col-3'>
                     <ListGroup
                         items={this.state.genres}
                         onItemSelect={this.handleGenreSelect}
@@ -133,12 +134,12 @@ class Movies extends Component {
                     />
                 </div>
 
-                <div className="col">
+                <div className='col'>
                     {/* if user is truthie then render the new movie button */}
                     {user && (
                         <Link
-                            to="/movies/new"
-                            className="btn btn-primary btn-sm"
+                            to='/movies/new'
+                            className='btn btn-primary btn-sm'
                             style={{ marginBottom: 20 }}
                         >
                             New Movie
